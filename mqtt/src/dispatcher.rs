@@ -3,14 +3,14 @@ use futures_util::StreamExt;
 use messaging::{
     dispatcher::{Dispatcher, DispatcherDefinition},
     errors::MessagingError,
-    handler::{ConsumerHandler, ConsumerPayload},
+    handler::{ConsumerHandler, ConsumerMessage},
 };
 use opentelemetry::{
     global::{self, BoxedTracer},
     trace::{SpanKind, Status, TraceContextExt},
     Context,
 };
-use paho_mqtt::{AsyncClient, AsyncReceiver, Message};
+use paho_mqtt::{AsyncClient, AsyncReceiver, Message, TopicFilter};
 use std::{borrow::Cow, sync::Arc};
 use tracing::{debug, error, warn};
 
@@ -60,12 +60,10 @@ impl Dispatcher for MQTTDispatcher {
         let mut cloned_stream = self.stream.clone();
 
         while let Some(delivery) = cloned_stream.next().await {
-            match delivery {
-                Some(msg) => match self.consume(&Context::new(), &msg).await {
-                    Err(e) => error!(error = e.to_string(), "failure to consume msg"),
-                    _ => {}
-                },
-                _ => {}
+            if let Some(msg) = delivery {
+                if let Err(err) = self.consume(&Context::new(), &msg).await {
+                    error!(error = err.to_string(), "failure to consume msg");
+                }
             }
         }
 
@@ -89,14 +87,9 @@ impl MQTTDispatcher {
 
         let handler = self.handlers.get(handler_idx).unwrap();
 
-        let payload = ConsumerPayload {
-            from: msg.topic().to_owned(),
-            msg_type: String::new(),
-            payload: msg.payload().into(),
-            headers: None,
-        };
+        let msg = ConsumerMessage::new(msg.topic(), "", msg.payload(), None);
 
-        return match handler.exec(&ctx, &payload).await {
+        match handler.exec(&ctx, &msg).await {
             Ok(_) => {
                 debug!(
                     trace.id = traces::trace_id(&ctx),
@@ -118,7 +111,7 @@ impl MQTTDispatcher {
                 });
                 Err(e)
             }
-        };
+        }
     }
 
     fn get_handler_index(
@@ -128,48 +121,33 @@ impl MQTTDispatcher {
     ) -> Result<usize, MessagingError> {
         let mut p = usize::MAX;
 
-        'outer: for handler_topic_index in 0..self.topics.len() {
+        for handler_topic_index in 0..self.topics.len() {
             let handler_topic = self.topics[handler_topic_index].clone();
 
-            if received_topic == handler_topic {
-                p = handler_topic_index;
-                break;
-            }
-
-            if received_topic.len() > received_topic.len() {
-                break;
-            }
-
-            let saved_topic_fields: Vec<_> = handler_topic.split('/').collect();
-            let received_topic_fields: Vec<_> = received_topic.split('/').collect();
-
-            for i in 0..saved_topic_fields.len() {
-                if saved_topic_fields[i] == "#" {
-                    p = handler_topic_index;
-                    break 'outer;
+            match TopicFilter::new(&handler_topic) {
+                Ok(filter) => {
+                    if filter.is_match(received_topic) {
+                        p = handler_topic_index;
+                        break;
+                    }
                 }
-
-                if saved_topic_fields[i] != "+" && saved_topic_fields[i] != received_topic_fields[i]
-                {
-                    break 'outer;
+                Err(err) => {
+                    error!(
+                        error = err.to_string(),
+                        trace.id = traces::trace_id(ctx),
+                        span.id = traces::span_id(ctx),
+                        topic = received_topic,
+                        "bad topic"
+                    );
+                    break;
                 }
-
-                if saved_topic_fields[i] == "+" && i == saved_topic_fields.len() - 1 {
-                    p = handler_topic_index;
-                    break 'outer;
-                }
-            }
-
-            if saved_topic_fields.len() == received_topic_fields.len() {
-                p = handler_topic_index;
-                break;
-            }
+            };
         }
 
         if p == usize::MAX {
             warn!(
-                trace.id = traces::trace_id(&ctx),
-                span.id = traces::span_id(&ctx),
+                trace.id = traces::trace_id(ctx),
+                span.id = traces::span_id(ctx),
                 topic = received_topic,
                 "cant find dispatch for this topic"
             );

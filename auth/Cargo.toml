@@ -6,11 +6,13 @@ edition = "2021"
 [dependencies]
 configs = { path = "../configs" }
 
-serde = { version = "1.0.188", features = ["derive"] }
-serde_json = { version = "1.0.105" }
-tracing = { version = "0.1.37" }
-async-trait = { version = "0.1.73" }
-opentelemetry = { version = "0.21.0" }
-alcoholic_jwt = { version =  "4091.0.0 " }
-tokio = { version = "1.32.0", features = ["sync"] }
-reqwest = { version = "0.11.20", features = ["json"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+async-trait = { workspace = true }
+opentelemetry = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["sync"] }
+reqwest = { version = "0.12.3", features = ["json"] }
+moka = { version = "0.12.7", features = ["future"] }
+jsonwebtoken = { version = "9.3.0" }

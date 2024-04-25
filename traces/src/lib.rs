@@ -1,6 +1,8 @@
-pub mod grpc;
-pub mod jaeger;
-pub mod otlp;
+pub mod errors;
+pub mod exporters;
+pub mod extractors;
+pub mod injectors;
+pub mod provider;
 
 use configs::{Configs, DynamicConfigs, Environment};
 use opentelemetry::trace::TraceContextExt;
@@ -21,7 +23,7 @@ where
     }
 
     let sampler = Sampler::TraceIdRatioBased(cfg.trace.export_rate_base);
-    return Sampler::ParentBased(Box::new(sampler));
+    Sampler::ParentBased(Box::new(sampler))
 }
 
 pub fn span_ctx(tracer: &BoxedTracer, kind: SpanKind, name: &str) -> Context {
