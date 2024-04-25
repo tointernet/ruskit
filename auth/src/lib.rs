@@ -1,5 +1,6 @@
-pub mod jwt_manager;
-mod scopes;
-mod types;
-
-pub use scopes::{PlatformScopes, Scopes, UsersScopes};
+pub mod auth0;
+pub mod errors;
+pub mod keycloak;
+pub mod manager;
+pub mod rbac;
+pub mod types;
