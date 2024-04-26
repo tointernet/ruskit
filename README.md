@@ -1,7 +1,5 @@
 # Ruskit
 
-:warning::construction: **Work In Progress** :construction::warning:
-
 [![ci](https://github.com/ralvescosta/ruskit/actions/workflows/ci.yml/badge.svg)](https://github.com/ralvescosta/ruskit/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/ralvescosta/ruskit/branch/main/graph/badge.svg?token=6EAILKZFDO)](https://codecov.io/gh/ralvescosta/ruskit)
 
 [![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ralvescosta/ruskit/blob/main/LICENSE)
