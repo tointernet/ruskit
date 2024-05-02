@@ -49,9 +49,9 @@ sudo apt install libssl-dev build-essential cmake pkg-config llvm-dev libclang-d
 2- **Add in our cargo.toml:** To use one of these crates just add to your Cargo.toml:
 
 ```toml
-env = { git = "ssh://git@github.com/ralvescosta/ruskit.git",  rev = "v1.25.0" }
-logging = { git = "ssh://git@github.com/ralvescosta/ruskit.git",  rev = "v1.25.0"  }
-errors = { git = "ssh://git@github.com/ralvescosta/ruskit.git",  rev = "v1.25.0"  }
+configs = { git = "ssh://git@github.com/tointernet/ruskit.git",  rev = "v1.25.0" }
+configs_builder = { git = "ssh://git@github.com/tointernet/ruskit.git",  rev = "v1.25.0" }
+logging = { git = "ssh://git@github.com/tointernet/ruskit.git",  rev = "v1.25.0"  }
 ```
 
 # Documentation
