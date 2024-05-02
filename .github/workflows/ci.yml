@@ -21,6 +21,9 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: 🔑 SSH agent
+      uses: webfactory/ssh-agent@v0.5.4
+
     - name: ⚡ Cache
       uses: actions/cache@v3
       continue-on-error: false
