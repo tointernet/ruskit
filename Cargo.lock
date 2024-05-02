@@ -564,10 +564,28 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "base64 0.13.1",
- "configs",
+ "configs 0.1.0",
  "jsonwebtoken",
  "moka",
  "openssl",
+ "opentelemetry",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "auth"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "async-trait",
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "jsonwebtoken",
+ "moka",
  "opentelemetry",
  "reqwest",
  "serde",
@@ -1259,14 +1277,33 @@ name = "configs"
 version = "0.1.0"
 
 [[package]]
+name = "configs"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+
+[[package]]
 name = "configs-builder"
 version = "0.1.0"
 dependencies = [
  "base64 0.22.0",
- "configs",
+ "configs 0.1.0",
  "dotenvy",
- "logging",
- "secrets-manager",
+ "logging 0.1.0",
+ "secrets-manager 0.1.0",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "configs-builder"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "base64 0.22.0",
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "dotenvy",
+ "logging 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "secrets-manager 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
  "thiserror",
  "tracing",
 ]
@@ -2008,9 +2045,9 @@ name = "health-http-server"
 version = "0.1.0"
 dependencies = [
  "actix-web",
- "configs",
- "health-readiness",
- "http-components",
+ "configs 0.1.0",
+ "health-readiness 0.1.0",
+ "http-components 0.1.0",
  "opentelemetry",
  "prometheus",
  "thiserror",
@@ -2025,6 +2062,16 @@ dependencies = [
  "deadpool-postgres",
  "lapin",
  "paho-mqtt",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "health-readiness"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "async-trait",
  "thiserror",
  "tracing",
 ]
@@ -2124,14 +2171,14 @@ dependencies = [
  "actix-service",
  "actix-web",
  "async-trait",
- "auth",
+ "auth 0.1.0",
  "futures",
  "futures-util",
- "health-readiness",
+ "health-readiness 0.1.0",
  "opentelemetry",
  "opentelemetry-prometheus",
  "opentelemetry-semantic-conventions",
- "otel",
+ "otel 0.1.0",
  "prometheus",
  "serde",
  "serde_json",
@@ -2141,14 +2188,39 @@ dependencies = [
 ]
 
 [[package]]
+name = "http-components"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "actix-cors",
+ "actix-http",
+ "actix-service",
+ "actix-web",
+ "async-trait",
+ "auth 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "futures",
+ "futures-util",
+ "health-readiness 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "opentelemetry",
+ "opentelemetry-prometheus",
+ "opentelemetry-semantic-conventions",
+ "otel 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "prometheus",
+ "serde",
+ "serde_json",
+ "tracing",
+ "utoipa",
+]
+
+[[package]]
 name = "http-server"
 version = "0.1.0"
 dependencies = [
  "actix-web",
- "auth",
- "configs",
- "health-readiness",
- "http-components",
+ "auth 0.1.0",
+ "configs 0.1.0",
+ "health-readiness 0.1.0",
+ "http-components 0.1.0",
  "opentelemetry",
  "serde",
  "serde_json",
@@ -2156,6 +2228,51 @@ dependencies = [
  "tracing",
  "utoipa",
  "utoipa-swagger-ui",
+]
+
+[[package]]
+name = "http-server"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "actix-web",
+ "auth 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "health-readiness 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "http-components 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "opentelemetry",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tracing",
+ "utoipa",
+ "utoipa-swagger-ui",
+]
+
+[[package]]
+name = "http_api"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "async-trait",
+ "auth 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "configs-builder 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "health-readiness 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "http-components 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "http-server 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "logging 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "metrics 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "migrator 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "opentelemetry",
+ "serde",
+ "serde_json",
+ "sql-pool 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "tokio",
+ "traces 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "tracing",
+ "utoipa",
+ "validator",
 ]
 
 [[package]]
@@ -2427,7 +2544,7 @@ name = "kafka"
 version = "0.1.0"
 dependencies = [
  "async-trait",
- "configs",
+ "configs 0.1.0",
  "messaging",
  "opentelemetry",
  "rdkafka",
@@ -2563,7 +2680,20 @@ checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
 name = "logging"
 version = "0.1.0"
 dependencies = [
- "configs",
+ "configs 0.1.0",
+ "thiserror",
+ "tracing",
+ "tracing-bunyan-formatter",
+ "tracing-log 0.2.0",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "logging"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
  "thiserror",
  "tracing",
  "tracing-bunyan-formatter",
@@ -2607,7 +2737,7 @@ dependencies = [
 name = "metrics"
 version = "0.1.0"
 dependencies = [
- "configs",
+ "configs 0.1.0",
  "opentelemetry",
  "opentelemetry-otlp",
  "opentelemetry-prometheus",
@@ -2621,14 +2751,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "metrics"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "prometheus",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
 name = "migrator"
 version = "0.1.0"
 dependencies = [
  "async-trait",
- "configs",
+ "configs 0.1.0",
  "deadpool-postgres",
  "deadpool-sqlite",
- "logging",
+ "logging 0.1.0",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "migrator"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "async-trait",
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "deadpool-postgres",
+ "logging 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
  "thiserror",
  "tracing",
 ]
@@ -2739,7 +2895,7 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "bytes",
- "configs",
+ "configs 0.1.0",
  "futures-util",
  "messaging",
  "mockall",
@@ -2749,7 +2905,7 @@ dependencies = [
  "serde_json",
  "thiserror",
  "tokio",
- "traces",
+ "traces 0.1.0",
  "tracing",
 ]
 
@@ -3040,6 +3196,14 @@ dependencies = [
 [[package]]
 name = "otel"
 version = "0.1.0"
+dependencies = [
+ "opentelemetry",
+]
+
+[[package]]
+name = "otel"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
 dependencies = [
  "opentelemetry",
 ]
@@ -3509,7 +3673,7 @@ name = "rabbitmq"
 version = "0.1.0"
 dependencies = [
  "async-trait",
- "configs",
+ "configs 0.1.0",
  "futures-util",
  "lapin",
  "messaging",
@@ -3519,7 +3683,7 @@ dependencies = [
  "serde_json",
  "thiserror",
  "tokio",
- "traces",
+ "traces 0.1.0",
  "tracing",
  "uuid 1.8.0",
 ]
@@ -4026,6 +4190,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "secrets-manager"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "async-trait",
+ "aws-config",
+ "aws-sdk-secretsmanager",
+ "serde_json",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
 name = "security-framework"
 version = "2.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4056,18 +4233,18 @@ checksum = "92d43fe69e652f3df9bdc2b85b2854a0825b86e4fb76bc44d945137d053639ca"
 
 [[package]]
 name = "serde"
-version = "1.0.198"
+version = "1.0.200"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9846a40c979031340571da2545a4e5b7c4163bdae79b301d5f86d03979451fcc"
+checksum = "ddc6f9cc94d67c0e21aaf7eda3a010fd3af78ebf6e096aa6e2e13c79749cce4f"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.198"
+version = "1.0.200"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e88edab869b01783ba905e7d0153f9fc1a6505a96e4ad3018011eedb838566d9"
+checksum = "856f046b9400cee3c8c94ed572ecdb752444c24528c035cd35882aad6f492bcb"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4219,9 +4396,21 @@ dependencies = [
 name = "sql-pool"
 version = "0.1.0"
 dependencies = [
- "configs",
+ "configs 0.1.0",
  "deadpool-postgres",
  "deadpool-sqlite",
+ "thiserror",
+ "tokio-postgres",
+ "tracing",
+]
+
+[[package]]
+name = "sql-pool"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "deadpool-postgres",
  "thiserror",
  "tokio-postgres",
  "tracing",
@@ -4432,6 +4621,7 @@ dependencies = [
  "bytes",
  "libc",
  "mio",
+ "num_cpus",
  "parking_lot",
  "pin-project-lite",
  "signal-hook-registry",
@@ -4628,10 +4818,25 @@ checksum = "b6bc1c9ce2b5135ac7f93c72918fc37feb872bdc6a5533a8b85eb4b86bfdae52"
 name = "traces"
 version = "0.1.0"
 dependencies = [
- "configs",
+ "configs 0.1.0",
  "opentelemetry",
  "opentelemetry-otlp",
  "opentelemetry-stdout",
+ "opentelemetry_sdk",
+ "serde",
+ "thiserror",
+ "tokio",
+ "tonic",
+ "tracing",
+]
+
+[[package]]
+name = "traces"
+version = "0.1.0"
+source = "git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0#8877971413d22174dc4052972fff580dcfcfb0e1"
+dependencies = [
+ "configs 0.1.0 (git+ssh://git@github.com/tointernet/ruskit.git?rev=v0.3.0)",
+ "opentelemetry",
  "opentelemetry_sdk",
  "serde",
  "thiserror",
