@@ -21,9 +21,6 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: 🔑 SSH agent
-      uses: webfactory/ssh-agent@v0.5.4
-
     - name: ⚡ Cache
       uses: actions/cache@v3
       continue-on-error: false
@@ -55,7 +52,7 @@ jobs:
 
     - name: 🔎 Run tests
       run: |
-        cargo tarpaulin --workspace --timeout 120 --skip-clean --out xml
+        cargo tarpaulin --workspace --timeout 120 --skip-clean --exclude-files "examples/*" --out xml
 
     - name: ☁ Codecov
       uses: codecov/codecov-action@v3
