@@ -1,6 +1,10 @@
 [workspace]
 resolver = "2"
 
+exclude = [
+    "examples/http_api"
+]
+
 members = [
     "configs",
     "configs_builder",
@@ -18,7 +22,7 @@ members = [
     "secrets_manager",
     "sql_pool",
     "traces",
-    "auth", "examples/http_api",
+    "auth",
 ]
 
 [workspace.dependencies]
