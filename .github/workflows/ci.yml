@@ -52,7 +52,7 @@ jobs:
 
     - name: 🔎 Run tests
       run: |
-        cargo tarpaulin --workspace --timeout 120 --skip-clean --out xml
+        cargo tarpaulin --workspace --timeout 120 --skip-clean --exclude-files "examples/**/*" --out xml
 
     - name: ☁ Codecov
       uses: codecov/codecov-action@v3
