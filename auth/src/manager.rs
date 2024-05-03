@@ -85,6 +85,7 @@ pub trait JwtManager: Send + Sync {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use base64::{prelude::BASE64_URL_SAFE_NO_PAD, Engine};
     use jsonwebtoken::{encode, EncodingKey, Header};
     use openssl::rsa::Rsa;
     use serde::{Deserialize, Serialize};
@@ -130,8 +131,8 @@ mod tests {
             let private_key_pem = rsa.private_key_to_pem().unwrap();
             let _public_key_pem = rsa.public_key_to_pem().unwrap();
 
-            let n = base64::encode_config(rsa.n().to_vec(), base64::URL_SAFE_NO_PAD);
-            let e = base64::encode_config(rsa.e().to_vec(), base64::URL_SAFE_NO_PAD);
+            let n = BASE64_URL_SAFE_NO_PAD.encode(rsa.n().to_vec());
+            let e = BASE64_URL_SAFE_NO_PAD.encode(rsa.e().to_vec());
 
             // Construct the JWK
             let serialized = json!({

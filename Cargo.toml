@@ -1,6 +1,10 @@
 [workspace]
 resolver = "2"
 
+exclude = [
+    "examples/http_api"
+]
+
 members = [
     "configs",
     "configs_builder",

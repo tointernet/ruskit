@@ -19,4 +19,4 @@ jsonwebtoken = { version = "9.3.0" }
 
 [dev-dependencies]
 openssl = "0.10"
-base64 = "0.13"
+base64 = "0.22"
