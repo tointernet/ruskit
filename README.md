@@ -56,7 +56,7 @@ logging = { git = "ssh://git@github.com/tointernet/ruskit.git",  rev = "v1.25.0"
 
 # Documentation
 
-For detailed documentation and usage examples, please visit our [ruskit example repository](https://github.com/ralvescosta/ruskit_examples)
+For detailed documentation and usage examples, please visit [ruskit examples](https://github.com/tointernet/ruskit/tree/main/examples)
 
 # License
 

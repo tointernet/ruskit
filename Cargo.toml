@@ -2,7 +2,8 @@
 resolver = "2"
 
 exclude = [
-    "examples/http_api"
+    "examples/http_api",
+    "examples/rmq-consumer"
 ]
 
 members = [
@@ -22,7 +23,7 @@ members = [
     "secrets_manager",
     "sql_pool",
     "traces",
-    "auth",
+    "auth"
 ]
 
 [workspace.dependencies]
