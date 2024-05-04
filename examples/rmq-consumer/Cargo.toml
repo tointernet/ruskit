@@ -1,0 +1,25 @@
+[package]
+name = "rmq-consumer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+configs = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+configs-builder = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+logging = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+traces = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+messaging = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+rabbitmq = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+metrics = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+sql-pool = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0", features = ["postgres"] }
+migrator = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0", features = ["postgres"] }
+health-http-server = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0"}
+health-readiness = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.4.0", features=["rabbitmq"]}
+
+serde = { version = "1.0.200" }
+serde_json = { version = "1.0.116" }
+opentelemetry = { version = "0.22" }
+async-trait = { version = "0.1.77" }
+tracing = { version = "0.1.40" }
+tokio = { version = "1.37.0", features = ["default", "rt-multi-thread", "macros", "signal"]}
+lapin = { version = "2.3.4" }
