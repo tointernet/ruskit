@@ -1,1 +1,1 @@
-# Secrets Manager
+# Secrets Manager Crate
