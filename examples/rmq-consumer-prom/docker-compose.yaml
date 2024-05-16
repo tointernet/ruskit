@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rmq
+    networks:
+      - net
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  consumer:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: consumer
+    restart: unless-stopped
+    networks:
+      - net
+    ports:
+      - 8888:8888
+    environment:
+      - RUST_ENV=local
+    depends_on:
+      - rabbitmq
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - net
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prom_data:/prometheus
+    depends_on:
+      - consumer
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    networks:
+      - net
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./datasource:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+
+networks:
+  net:
+volumes:
+  prom_data:
