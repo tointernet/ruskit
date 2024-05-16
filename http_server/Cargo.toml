@@ -20,5 +20,5 @@ tracing = { workspace = true }
 opentelemetry = { workspace = true }
 
 # Swagger
-utoipa = { version = "4.2.0", features = ["actix_extras"], optional = true }
-utoipa-swagger-ui = { version = "6.0.0", features = ["actix-web"], optional = true }
+utoipa = { version = "4.2.3", features = ["actix_extras"], optional = true }
+utoipa-swagger-ui = { version = "7.0.1", features = ["actix-web"], optional = true }

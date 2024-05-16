@@ -17,11 +17,11 @@ migrator = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.3.0", 
 health-readiness = {git = "ssh://git@github.com/tointernet/ruskit.git", rev = "v0.3.0"}
 
 actix-web = { version = "4.5.1" }
-serde = { version = "1.0.200" }
-serde_json = { version = "1.0.116" }
+serde = { version = "1.0.202" }
+serde_json = { version = "1.0.117" }
 opentelemetry = { version = "0.22" }
-async-trait = { version = "0.1.77" }
+async-trait = { version = "0.1.80" }
 tracing = { version = "0.1.40" }
 tokio = { version = "1.37.0", features = ["default", "rt-multi-thread", "macros", "signal"]}
-utoipa = { version = "4.2.0" }
+utoipa = { version = "4.2.3" }
 validator = { version = "0.18.1" }
