@@ -27,9 +27,9 @@ members = [
 ]
 
 [workspace.dependencies]
-thiserror = { version = "1.0.59" }
-serde = { version = "1.0.198" }
-serde_json = { version = "1.0.116" }
+thiserror = { version = "1.0.60" }
+serde = { version = "1.0.202" }
+serde_json = { version = "1.0.117" }
 tokio = { version = "1.37.0" }
 async-trait = { version = "0.1.80" }
 tracing = { version = "0.1.40" }
