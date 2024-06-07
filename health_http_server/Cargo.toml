@@ -14,8 +14,8 @@ health-readiness = { path = '../health_readiness' }
 thiserror = { workspace = true }
 tracing = { workspace = true }
 opentelemetry = { workspace = true }
-actix-web = { version = "4.5.1" }
+actix-web = { version = "4.6.0" }
 
-prometheus = { version = "0.13.3", optional = true }
+prometheus = { version = "0.13.4", optional = true }
 
 

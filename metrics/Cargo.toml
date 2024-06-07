@@ -19,11 +19,11 @@ thiserror = { workspace = true }
 # OTLP Featue
 tonic = { workspace = true, features = ["tls"], optional = true }
 tokio = { workspace = true, features = ["default"], optional = true }
-opentelemetry-otlp = { version = "0.15", features = ["metrics", "prost", "grpc-tonic", "gzip-tonic","tls", "tls-roots"], optional = true }
+opentelemetry-otlp = { version = "0.16", features = ["metrics", "prost", "grpc-tonic", "gzip-tonic","tls", "tls-roots"], optional = true }
 
 # Prometheus Feature
-prometheus = { version = "0.13.3" }
-opentelemetry-prometheus = { version = "0.15", optional = true }
+prometheus = { version = "0.13.4" }
+opentelemetry-prometheus = { version = "0.16", optional = true }
 
 # Stdout
 opentelemetry-stdout = { version = "0.3", features = ["metrics"], optional = true }

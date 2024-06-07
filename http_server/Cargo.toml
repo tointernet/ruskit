@@ -12,7 +12,7 @@ http-components = { path = '../http_components', features = ["tracing", "metrics
 health-readiness = { path = '../health_readiness' }
 auth = { path = "../auth" }
 
-actix-web = { version = "4.5.1" }
+actix-web = { version = "4.6.0" }
 thiserror = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
@@ -21,4 +21,4 @@ opentelemetry = { workspace = true }
 
 # Swagger
 utoipa = { version = "4.2.3", features = ["actix_extras"], optional = true }
-utoipa-swagger-ui = { version = "7.0.1", features = ["actix-web"], optional = true }
+utoipa-swagger-ui = { version = "7.1.0", features = ["actix-web"], optional = true }
