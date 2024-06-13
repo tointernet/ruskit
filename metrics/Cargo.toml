@@ -26,4 +26,4 @@ prometheus = { version = "0.13.4" }
 opentelemetry-prometheus = { version = "0.16", optional = true }
 
 # Stdout
-opentelemetry-stdout = { version = "0.3", features = ["metrics"], optional = true }
+opentelemetry-stdout = { version = "0.4", features = ["metrics"], optional = true }

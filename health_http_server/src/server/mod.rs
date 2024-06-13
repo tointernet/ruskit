@@ -1,3 +1,3 @@
-mod tiny_server;
+mod server;
 
-pub use tiny_server::TinyHTTPServer;
+pub use server::TinyHTTPServer;

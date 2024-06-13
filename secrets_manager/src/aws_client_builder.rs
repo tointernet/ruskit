@@ -10,19 +10,18 @@ use tracing::error;
 
 #[derive(Default)]
 pub struct AWSSecretClientBuilder {
-    env: String,
     secret_key: String,
 }
 
 #[cfg_attr(test, automock)]
 #[cfg_attr(mock, automock)]
 impl AWSSecretClientBuilder {
-    pub fn new(env: String, secret_key: String) -> AWSSecretClientBuilder {
-        AWSSecretClientBuilder { env, secret_key }
+    pub fn new(secret_key: String) -> AWSSecretClientBuilder {
+        AWSSecretClientBuilder { secret_key }
     }
 
     fn secret_id(&self) -> String {
-        format!("{}/{}", self.env, self.secret_key)
+        format!("{}", self.secret_key)
     }
 
     pub async fn build(&self) -> Result<AWSSecretClient, SecretsManagerError> {
