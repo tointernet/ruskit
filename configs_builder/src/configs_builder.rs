@@ -194,7 +194,7 @@ impl ConfigBuilder {
             SecretsManagerKind::AWSSecretManager => {
                 let secret_key = env::var(SECRET_KEY_ENV_KEY).unwrap_or_default();
 
-                match AWSSecretClientBuilder::new(app_cfg.env.to_string(), secret_key)
+                match AWSSecretClientBuilder::new(secret_key)
                     .build()
                     .await
                 {
