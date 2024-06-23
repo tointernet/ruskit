@@ -9,14 +9,14 @@ mocks = ["dep:mockall"]
 [dependencies]
 async-trait = { workspace = true }
 tracing = { workspace = true }
-aws-config = { version = "1.5.1" }
-aws-sdk-secretsmanager = { version = "1.32.0" }
+aws-config = { version = "1.5.3" }
+aws-sdk-secretsmanager = { version = "1.37.0" }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 
 # Used only with feature mock
-mockall = { version = "0.12.1", optional = true }
+mockall = { version = "0.12", optional = true }
 
 [dev-dependencies]
-mockall = { version = "0.12.1" }
+mockall = { version = "0.12" }
 tokio = { workspace = true, features = ["macros"] }

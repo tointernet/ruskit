@@ -60,10 +60,12 @@ impl Dispatcher for MQTTDispatcher {
         let mut cloned_stream = self.stream.clone();
 
         while let Some(delivery) = cloned_stream.next().await {
-            if let Some(msg) = delivery {
-                if let Err(err) = self.consume(&Context::new(), &msg).await {
-                    error!(error = err.to_string(), "failure to consume msg");
-                }
+            match delivery {
+                Some(msg) => match self.consume(&Context::new(), &msg).await {
+                    Err(e) => error!(error = e.to_string(), "failure to consume msg"),
+                    _ => {}
+                },
+                _ => {}
             }
         }
 
@@ -89,7 +91,7 @@ impl MQTTDispatcher {
 
         let msg = ConsumerMessage::new(msg.topic(), "", msg.payload(), None);
 
-        match handler.exec(&ctx, &msg).await {
+        return match handler.exec(&ctx, &msg).await {
             Ok(_) => {
                 debug!(
                     trace.id = traces::trace_id(&ctx),
@@ -111,7 +113,7 @@ impl MQTTDispatcher {
                 });
                 Err(e)
             }
-        }
+        };
     }
 
     fn get_handler_index(
@@ -134,8 +136,8 @@ impl MQTTDispatcher {
                 Err(err) => {
                     error!(
                         error = err.to_string(),
-                        trace.id = traces::trace_id(ctx),
-                        span.id = traces::span_id(ctx),
+                        trace.id = traces::trace_id(&ctx),
+                        span.id = traces::span_id(&ctx),
                         topic = received_topic,
                         "bad topic"
                     );
@@ -146,8 +148,8 @@ impl MQTTDispatcher {
 
         if p == usize::MAX {
             warn!(
-                trace.id = traces::trace_id(ctx),
-                span.id = traces::span_id(ctx),
+                trace.id = traces::trace_id(&ctx),
+                span.id = traces::span_id(&ctx),
                 topic = received_topic,
                 "cant find dispatch for this topic"
             );

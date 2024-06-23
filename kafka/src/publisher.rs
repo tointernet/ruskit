@@ -122,7 +122,7 @@ impl KafkaPublisher {
         let partition = match headers.get(PARTITION_HEADER_KEY) {
             Some(v) => {
                 if let HeaderValues::LongInt(p) = v {
-                    Some(p.to_owned())
+                    Some(p.clone())
                 } else {
                     None
                 }
@@ -133,7 +133,7 @@ impl KafkaPublisher {
         let timestamp = match headers.get(TIMESTAMP_HEADER_KEY) {
             Some(v) => {
                 if let HeaderValues::LongLongInt(t) = v {
-                    t.to_owned()
+                    t.clone()
                 } else {
                     now()
                 }
@@ -144,7 +144,7 @@ impl KafkaPublisher {
         let queue_timeout = match headers.get(QUEUE_TIMEOUT_KEY) {
             Some(v) => {
                 if let HeaderValues::LongLongUint(t) = v {
-                    Duration::from_millis(t.to_owned())
+                    Duration::from_millis(t.clone())
                 } else {
                     Duration::from_secs(0)
                 }

@@ -12,7 +12,7 @@ http-components = { path = '../http_components', features = ["tracing", "metrics
 health-readiness = { path = '../health_readiness' }
 auth = { path = "../auth" }
 
-actix-web = { version = "4.6.0" }
+actix-web = { version = "4.8.0" }
 thiserror = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }

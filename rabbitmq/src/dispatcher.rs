@@ -91,7 +91,7 @@ impl RabbitMQDispatcher {
                 while let Some(result) = consumer.next().await {
                     match result {
                         Ok(delivery) => {
-                            if let Err(err) = consume(
+                            match consume(
                                 &global::tracer("amqp consumer"),
                                 &delivery,
                                 &defs,
@@ -99,7 +99,10 @@ impl RabbitMQDispatcher {
                             )
                             .await
                             {
-                                error!(error = err.to_string(), "error consume msg")
+                                Err(err) => {
+                                    error!(error = err.to_string(), "error consume msg")
+                                }
+                                _ => {}
                             }
                         }
 
@@ -114,18 +117,18 @@ impl RabbitMQDispatcher {
             return Err(MessagingError::ConsumerError("some error occur".to_owned()));
         }
 
-        Ok(())
+        return Ok(());
     }
 
     pub async fn consume_blocking_multi(&self) -> Result<(), MessagingError> {
         let mut spawns = vec![];
 
-        for (consumer_tag, def) in &self.dispatchers_def {
+        for (msg_type, def) in &self.dispatchers_def {
             let mut consumer = match self
                 .channel
                 .basic_consume(
                     &def.queue_def.name,
-                    consumer_tag,
+                    &msg_type,
                     BasicConsumeOptions {
                         no_local: false,
                         no_ack: false,
@@ -151,7 +154,7 @@ impl RabbitMQDispatcher {
                     while let Some(result) = consumer.next().await {
                         match result {
                             Ok(delivery) => {
-                                if let Err(err) = consume(
+                                match consume(
                                     &global::tracer("amqp consumer"),
                                     &delivery,
                                     &defs,
@@ -159,7 +162,10 @@ impl RabbitMQDispatcher {
                                 )
                                 .await
                                 {
-                                    error!(error = err.to_string(), "error consume msg");
+                                    Err(err) => {
+                                        error!(error = err.to_string(), "error consume msg")
+                                    }
+                                    _ => {}
                                 }
                             }
 
