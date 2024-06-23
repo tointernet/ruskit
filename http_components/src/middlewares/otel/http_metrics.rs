@@ -60,12 +60,6 @@ impl HTTPOtelMetrics {
     }
 }
 
-impl Default for HTTPOtelMetrics {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl<S, B> dev::Transform<S, dev::ServiceRequest> for HTTPOtelMetrics
 where
     S: dev::Service<

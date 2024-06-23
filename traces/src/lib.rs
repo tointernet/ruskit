@@ -23,7 +23,7 @@ where
     }
 
     let sampler = Sampler::TraceIdRatioBased(cfg.trace.export_rate_base);
-    Sampler::ParentBased(Box::new(sampler))
+    return Sampler::ParentBased(Box::new(sampler));
 }
 
 pub fn span_ctx(tracer: &BoxedTracer, kind: SpanKind, name: &str) -> Context {

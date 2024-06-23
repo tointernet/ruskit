@@ -1,4 +1,5 @@
-use super::errors::KafkaError;
+use std::str::FromStr;
+
 use opentelemetry::{
     global::BoxedTracer,
     trace::{
@@ -8,7 +9,6 @@ use opentelemetry::{
     Context,
 };
 use rdkafka::message::{BorrowedHeaders, Header, Headers, OwnedHeaders};
-use std::str::FromStr;
 use tracing::error;
 
 const SUPPORTED_VERSION: u8 = 0;
@@ -63,53 +63,45 @@ pub fn inject_context(
         })
 }
 
-pub fn extract_context(kafka_headers: &BorrowedHeaders) -> Result<Context, KafkaError> {
+pub fn extract_context(kafka_headers: &BorrowedHeaders) -> Result<Context, ()> {
     let Some((header_value, stats)) = extract_trace_from_header(kafka_headers) else {
-        return Err(KafkaError::InternalError);
+        return Err(());
     };
 
     let parts = header_value.split_terminator('-').collect::<Vec<&str>>();
     // Ensure parts are not out of range.
     if parts.len() < 4 {
-        return Err(KafkaError::InternalError);
+        return Err(());
     }
 
     // Ensure version is within range, for version 0 there must be 4 parts.
-    let Ok(version) = u8::from_str_radix(parts[0], 16) else {
-        return Err(KafkaError::InternalError);
-    };
+    let version = u8::from_str_radix(parts[0], 16).map_err(|_| ())?;
     if version > MAX_VERSION || version == 0 && parts.len() != 4 {
-        return Err(KafkaError::InternalError);
+        return Err(());
     }
 
     // Ensure trace id is lowercase
     if parts[1].chars().any(|c| c.is_ascii_uppercase()) {
-        return Err(KafkaError::InternalError);
+        return Err(());
     }
 
     // Parse trace id section
-    let Ok(trace_id) = TraceId::from_hex(parts[1]) else {
-        return Err(KafkaError::InternalError);
-    };
+    let trace_id = TraceId::from_hex(parts[1]).map_err(|_| ())?;
 
     // Ensure span id is lowercase
     if parts[2].chars().any(|c| c.is_ascii_uppercase()) {
-        return Err(KafkaError::InternalError);
+        return Err(());
     }
 
     // Parse span id section
-    let Ok(span_id) = SpanId::from_hex(parts[2]) else {
-        return Err(KafkaError::InternalError);
-    };
+    let span_id = SpanId::from_hex(parts[2]).map_err(|_| ())?;
 
     // Parse trace flags section
-    let Ok(opts) = u8::from_str_radix(parts[3], 16) else {
-        return Err(KafkaError::InternalError);
-    };
+    let opts = u8::from_str_radix(parts[3], 16).map_err(|_| ())?;
 
     // Ensure opts are valid for version 0
     if version == 0 && opts > 2 {
-        return Err(KafkaError::InternalError);
+        return Err(());
     }
 
     // Build trace flags clearing all flags other than the trace-context
@@ -117,7 +109,7 @@ pub fn extract_context(kafka_headers: &BorrowedHeaders) -> Result<Context, Kafka
     let trace_flags = TraceFlags::new(opts) & TraceFlags::SAMPLED;
 
     let trace_state: TraceState =
-        TraceState::from_str(stats).unwrap_or_else(|_| TraceState::default());
+        TraceState::from_str(&stats).unwrap_or_else(|_| TraceState::default());
 
     // create context
     let span_context = SpanContext::new(trace_id, span_id, trace_flags, true, trace_state);
@@ -125,7 +117,7 @@ pub fn extract_context(kafka_headers: &BorrowedHeaders) -> Result<Context, Kafka
     Ok(Context::new().with_remote_span_context(span_context))
 }
 
-fn extract_trace_from_header(kafka_headers: &BorrowedHeaders) -> Option<(&str, &str)> {
+fn extract_trace_from_header<'e>(kafka_headers: &'e BorrowedHeaders) -> Option<(&'e str, &'e str)> {
     let mut trace_parent = "";
     let mut trace_state = "";
     let mut founded = 0;

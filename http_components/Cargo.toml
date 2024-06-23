@@ -12,8 +12,8 @@ validator = ["dep:validator"]
 health = ["dep:health-readiness"]
 
 [dependencies]
-actix-web = { version = "4.5.1" }
-actix-http = { version = "3.6.0" }
+actix-web = { version = "4.8.0" }
+actix-http = { version = "3.8.0" }
 actix-cors = { version = "0.7.0" }
 futures-util = { version = "0.3.30" }
 serde = { workspace = true, features = ["derive"] }
@@ -38,8 +38,8 @@ auth = { path = "../auth", optional = true }
 otel = { path = "../otel", optional = true }
 
 # metrics 
-opentelemetry-semantic-conventions = { version = "0.14", optional = true }
-opentelemetry-prometheus = { version = "0.15", optional = true }
+opentelemetry-semantic-conventions = { version = "0.15", optional = true }
+opentelemetry-prometheus = { version = "0.16", optional = true }
 prometheus = { version = "0.13.4", optional = true }
 
 # health

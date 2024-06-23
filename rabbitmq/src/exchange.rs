@@ -110,7 +110,7 @@ impl<'ex> ExchangeDefinition<'ex> {
     }
 
     pub fn passive(mut self) -> Self {
-        self.passive = true;
+        self.passive = self.passive;
         self
     }
 
