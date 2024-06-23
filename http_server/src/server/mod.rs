@@ -1,3 +1,3 @@
-mod http_server;
+mod server;
 
-pub use http_server::HTTPServer;
+pub use server::HTTPServer;
