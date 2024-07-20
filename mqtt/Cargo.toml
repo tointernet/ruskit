@@ -14,7 +14,7 @@ messaging = { path = "../messaging" }
 opentelemetry = { workspace = true }
 tracing = { workspace = true }
 async-trait = { workspace = true }
-bytes = { version = "1.6.0", features = ["serde"] }
+bytes = { version = "1.6.1", features = ["serde"] }
 paho-mqtt = { version = "0.12.5" }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
@@ -22,10 +22,10 @@ futures-util = { version = "0.3.30" }
 thiserror = { workspace = true }
 
 # Used only with feature mock
-mockall = { version = "0.12.1", optional = true }
+mockall = { version = "0.12", optional = true }
 
 [dev-dependencies]
 messaging = { path = "../messaging", features = ["mocks"] }
 
-mockall = { version = "0.12.1" }
+mockall = { version = "0.12" }
 tokio = { workspace = true }
