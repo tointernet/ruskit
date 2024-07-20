@@ -56,7 +56,7 @@ impl Publisher for RabbitMQPublisher {
                 &infos.data,
                 BasicProperties::default()
                     .with_content_type(ShortString::from(JSON_CONTENT_TYPE))
-                    .with_kind(ShortString::from(infos.msg_type.clone()))
+                    .with_type(ShortString::from(infos.msg_type.clone()))
                     .with_message_id(ShortString::from(Uuid::new_v4().to_string()))
                     .with_headers(FieldTable::from(btree)),
             )

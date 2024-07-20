@@ -38,7 +38,7 @@ auth = { path = "../auth", optional = true }
 otel = { path = "../otel", optional = true }
 
 # metrics 
-opentelemetry-semantic-conventions = { version = "0.15", optional = true }
+opentelemetry-semantic-conventions = { version = "0.16", optional = true }
 opentelemetry-prometheus = { version = "0.16", optional = true }
 prometheus = { version = "0.13.4", optional = true }
 

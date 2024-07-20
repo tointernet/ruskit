@@ -9,8 +9,8 @@ mocks = ["dep:mockall"]
 [dependencies]
 async-trait = { workspace = true }
 tracing = { workspace = true }
-aws-config = { version = "1.5.3" }
-aws-sdk-secretsmanager = { version = "1.37.0" }
+aws-config = { version = "1.5.4" }
+aws-sdk-secretsmanager = { version = "1.39.0" }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 

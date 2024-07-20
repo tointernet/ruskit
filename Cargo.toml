@@ -28,12 +28,12 @@ members = [
 ]
 
 [workspace.dependencies]
-thiserror = { version = "1.0.61" }
-serde = { version = "1.0.203" }
-serde_json = { version = "1.0.117" }
-tokio = { version = "1.38.0" }
-async-trait = { version = "0.1.80" }
+thiserror = { version = "1.0.63" }
+serde = { version = "1.0.204" }
+serde_json = { version = "1.0.120" }
+tokio = { version = "1.38.1" }
+async-trait = { version = "0.1.81" }
 tracing = { version = "0.1.40" }
-tonic = { version = "0.11" }
-opentelemetry = { version = "0.23.0" }
-opentelemetry_sdk = { version = "0.23.0" }
+tonic = { version = "0.12" }
+opentelemetry = { version = "0.24.0" }
+opentelemetry_sdk = { version = "0.24.0" }
