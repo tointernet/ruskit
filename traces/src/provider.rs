@@ -2,7 +2,7 @@ use crate::{errors::TracesError, get_sampler};
 use configs::{Configs, DynamicConfigs, TraceExporterKind};
 use opentelemetry::KeyValue;
 use opentelemetry_sdk::{
-    trace::{self, RandomIdGenerator},
+    trace::{Config, RandomIdGenerator},
     Resource,
 };
 use std::vec;
@@ -22,7 +22,7 @@ where
 
     debug!("traces::init creating the tracer...");
 
-    let _trace_configs = trace::config()
+    let _trace_configs = Config::default()
         .with_sampler(get_sampler(cfg))
         .with_id_generator(RandomIdGenerator::default())
         .with_max_events_per_span(64)

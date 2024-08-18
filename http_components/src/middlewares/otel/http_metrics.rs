@@ -3,7 +3,7 @@
 use super::attributes::metrics_attributes_from_request;
 use actix_web::dev;
 use futures_util::future::{self, FutureExt as _, LocalBoxFuture};
-use opentelemetry::metrics::{Counter, Histogram, Meter, Unit, UpDownCounter};
+use opentelemetry::metrics::{Counter, Histogram, Meter, UpDownCounter};
 use opentelemetry::{global, Key, KeyValue, Value};
 use std::{sync::Arc, time::SystemTime};
 
@@ -31,7 +31,7 @@ impl Metrics {
         let http_server_duration = meter
             .f64_histogram(HTTP_SERVER_DURATION)
             .with_description("HTTP inbound request duration per route")
-            .with_unit(Unit::new("ms"))
+            .with_unit("ms")
             .init();
 
         let http_requests = meter
