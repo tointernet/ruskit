@@ -59,7 +59,12 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         verbose: true
-      
+
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v6
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
   tag:
     needs: [build]
     runs-on: ubuntu-latest
