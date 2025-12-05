@@ -1,8 +1,7 @@
-use super::selectors::OTLPTemporalitySelector;
 use crate::errors::MetricsError;
 use configs::{Configs, DynamicConfigs};
 use opentelemetry::KeyValue;
-use opentelemetry_otlp::{Protocol, WithExportConfig};
+use opentelemetry_otlp::{Protocol, WithExportConfig, WithTonicConfig};
 use opentelemetry_sdk::{metrics::SdkMeterProvider, runtime, Resource};
 use std::time::Duration;
 use tonic::metadata::{Ascii, MetadataKey, MetadataMap};
@@ -31,36 +30,36 @@ where
     let mut map = MetadataMap::with_capacity(2);
     map.insert(key, value);
 
-    let provider = match opentelemetry_otlp::new_pipeline()
-        .metrics(runtime::Tokio)
-        .with_temporality_selector(OTLPTemporalitySelector::default())
-        .with_exporter(
-            opentelemetry_otlp::new_exporter()
-                .tonic()
-                .with_endpoint(&cfg.metric.host)
-                .with_timeout(Duration::from_secs(cfg.metric.export_timeout))
-                .with_protocol(Protocol::Grpc)
-                .with_metadata(map),
-        )
-        .with_resource(Resource::new(vec![
+    let exporter = opentelemetry_otlp::MetricExporter::builder()
+        .with_tonic()
+        .with_endpoint(&cfg.metric.host)
+        .with_timeout(Duration::from_secs(cfg.metric.export_timeout))
+        .with_protocol(Protocol::Grpc)
+        .with_metadata(map)
+        .build()
+        .map_err(|err| {
+            error!(error = err.to_string(), "failure to create metric exporter");
+            MetricsError::ExporterProviderError
+        })?;
+
+    let reader = opentelemetry_sdk::metrics::PeriodicReader::builder(exporter)
+        .with_interval(Duration::from_secs(cfg.metric.export_interval))
+        .with_timeout(Duration::from_secs(cfg.metric.export_timeout))
+        .build();
+
+    let resource = Resource::builder()
+        .with_attributes(vec![
             KeyValue::new("service.name", cfg.app.name.clone()),
             KeyValue::new("service.type", cfg.metric.service_type.clone()),
             KeyValue::new("environment", format!("{}", cfg.app.env)),
             KeyValue::new("library.language", "rust"),
-        ]))
-        .with_period(Duration::from_secs(cfg.metric.export_interval))
-        .with_timeout(Duration::from_secs(cfg.metric.export_timeout))
-        .build()
-    {
-        Ok(p) => Ok(p),
-        Err(err) => {
-            error!(
-                error = err.to_string(),
-                "failure to create exporter provider"
-            );
-            Err(MetricsError::ExporterProviderError)
-        }
-    }?;
+        ])
+        .build();
+
+    let provider = opentelemetry_sdk::metrics::SdkMeterProvider::builder()
+        .with_reader(reader)
+        .with_resource(resource)
+        .build();
 
     Ok(provider)
 }

@@ -15,7 +15,7 @@ use http_components::{
     },
     CustomServiceConfigure,
 };
-use opentelemetry::global;
+// use opentelemetry::global; // Unused after API migration
 use std::{sync::Arc, time::Duration};
 use tracing::error;
 #[cfg(feature = "openapi")]
@@ -123,7 +123,8 @@ impl HTTPServer {
             HTTPServerError::ServerStartupError {}
         })?;
 
-        global::shutdown_tracer_provider();
+        // Note: shutdown_tracer_provider() removed in OpenTelemetry 0.31.0
+        // global::shutdown_tracer_provider();
 
         Ok(())
     }

@@ -26,18 +26,18 @@ impl Metrics {
         let http_server_active_requests = meter
             .i64_up_down_counter(HTTP_SERVER_ACTIVE_REQUESTS)
             .with_description("HTTP concurrent in-flight requests per route")
-            .init();
+            .build();
 
         let http_server_duration = meter
             .f64_histogram(HTTP_SERVER_DURATION)
             .with_description("HTTP inbound request duration per route")
             .with_unit("ms")
-            .init();
+            .build();
 
         let http_requests = meter
             .u64_counter(HTTP_SERVER_REQUESTS)
             .with_description("HTTP Requests")
-            .init();
+            .build();
 
         Metrics {
             http_server_active_requests,

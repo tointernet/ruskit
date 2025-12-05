@@ -1,5 +1,3 @@
-mod selectors;
-
 #[cfg(feature = "otlp")]
 pub mod otlp;
 

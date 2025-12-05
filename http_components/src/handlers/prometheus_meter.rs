@@ -1,9 +1,9 @@
 use actix_http::body::BoxBody;
 use actix_web::dev;
 use futures_util::future::{self, LocalBoxFuture};
-use opentelemetry::{global, metrics::MetricsError};
 use prometheus::{Encoder, Registry, TextEncoder};
 use std::sync::Arc;
+use tracing::error;
 
 /// Prometheus request metrics service
 #[derive(Clone, Debug)]
@@ -25,7 +25,7 @@ impl PrometheusMetricsHandler {
         let metric_families = self.registry.gather();
         let mut buf = Vec::new();
         if let Err(err) = encoder.encode(&metric_families[..], &mut buf) {
-            global::handle_error(MetricsError::Other(err.to_string()));
+            error!(error = err.to_string(), "Failed to encode metrics");
         }
 
         (

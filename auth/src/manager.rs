@@ -149,23 +149,13 @@ mod tests {
             let jwk_set: JwkSet = serde_json::from_value(serialized).unwrap();
 
             let encoding_key = EncodingKey::from_rsa_pem(&private_key_pem).unwrap();
-            let token = encode(
-                &Header {
-                    typ: Some("JWT".into()),
-                    alg: Self::alg(wrong_algorithm),
-                    cty: None,
-                    jku: None,
-                    jwk: Some(jwk_set.keys[0].clone()),
-                    kid: Self::kid(without_kid),
-                    x5u: None,
-                    x5c: None,
-                    x5t: None,
-                    x5t_s256: None,
-                },
-                &claims,
-                &encoding_key,
-            )
-            .unwrap();
+            let mut header = Header::new(Self::alg(wrong_algorithm));
+            header.typ = Some("JWT".into());
+            header.jwk = Some(jwk_set.keys[0].clone());
+            if !without_kid {
+                header.kid = Some("key1".to_string());
+            }
+            let token = encode(&header, &claims, &encoding_key).unwrap();
 
             let manager = Box::new(MyJwtManager);
 

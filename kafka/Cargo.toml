@@ -7,7 +7,7 @@ edition = "2021"
 configs = { path = "../configs" }
 messaging = { path = "../messaging" }
 
-rdkafka = { version = "0.36.2" }
+rdkafka = { version = "0.38.0" }
 async-trait = { workspace = true }
 opentelemetry = { workspace = true }
 tracing = { workspace = true }

@@ -10,7 +10,7 @@ use health_readiness::{HealthReadinessService, HealthReadinessServiceImpl};
 #[cfg(feature = "prometheus")]
 use http_components::handlers::PrometheusMetricsHandler;
 use http_components::{handlers::health_handler, middlewares, CustomServiceConfigure};
-use opentelemetry::global;
+// use opentelemetry::global; // Unused after API migration
 #[cfg(feature = "prometheus")]
 use prometheus::Registry;
 use std::{sync::Arc, time::Duration};
@@ -111,14 +111,16 @@ impl TinyHTTPServer {
         {
             Ok(server) => match server.run().await {
                 Err(err) => {
-                    global::shutdown_tracer_provider();
+                    // Note: shutdown_tracer_provider() removed in OpenTelemetry 0.31.0
+                    // global::shutdown_tracer_provider();
                     error!(error = err.to_string(), "error to start http server");
                     Err(HTTPServerError::ServerStartupError {})
                 }
                 _ => Ok(()),
             },
             Err(err) => {
-                global::shutdown_tracer_provider();
+                // Note: shutdown_tracer_provider() removed in OpenTelemetry 0.31.0
+                // global::shutdown_tracer_provider();
                 error!(
                     error = err.to_string(),
                     "error to binding the http server addr"

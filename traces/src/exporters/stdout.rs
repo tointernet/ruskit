@@ -2,15 +2,14 @@ use crate::errors::TracesError;
 use opentelemetry::{global, propagation::TextMapCompositePropagator};
 use opentelemetry_sdk::{
     propagation::{BaggagePropagator, TraceContextPropagator},
-    trace::{Config, TracerProvider},
+    trace::SdkTracerProvider,
 };
 use tracing::debug;
 
-pub fn install(trace_configs: Config) -> Result<(), TracesError> {
+pub fn install() -> Result<(), TracesError> {
     let exporter = opentelemetry_stdout::SpanExporter::default();
 
-    let provider = TracerProvider::builder()
-        .with_config(trace_configs)
+    let provider = SdkTracerProvider::builder()
         .with_simple_exporter(exporter)
         .build();
 

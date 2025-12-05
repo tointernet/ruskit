@@ -7,6 +7,7 @@ use futures_util::future::{ok, FutureExt as _, LocalBoxFuture, Ready};
 use opentelemetry::{
     global::{self, BoxedTracer},
     trace::{FutureExt, SpanKind, Status, TraceContextExt, Tracer},
+    KeyValue,
 };
 use otel::keys::HTTP_STATUS_CODE;
 use std::{borrow::Cow, task::Poll};
@@ -97,7 +98,10 @@ where
             .map(move |res| match res {
                 Ok(ok_res) => {
                     let span = cx.span();
-                    span.set_attribute(HTTP_STATUS_CODE.i64(ok_res.status().as_u16() as i64));
+                    span.set_attribute(KeyValue::new(
+                        HTTP_STATUS_CODE,
+                        ok_res.status().as_u16() as i64,
+                    ));
                     if ok_res.status().is_server_error() {
                         span.set_status(Status::error(
                             ok_res

@@ -28,12 +28,16 @@ where
     }?;
 
     let provider = MeterProviderBuilder::default()
-        .with_resource(Resource::new(vec![
-            KeyValue::new("service.name", cfg.app.name.clone()),
-            KeyValue::new("service.type", cfg.metric.service_type.clone()),
-            KeyValue::new("environment", format!("{}", cfg.app.env)),
-            KeyValue::new("library.language", "rust"),
-        ]))
+        .with_resource(
+            Resource::builder()
+                .with_attributes(vec![
+                    KeyValue::new("service.name", cfg.app.name.clone()),
+                    KeyValue::new("service.type", cfg.metric.service_type.clone()),
+                    KeyValue::new("environment", format!("{}", cfg.app.env)),
+                    KeyValue::new("library.language", "rust"),
+                ])
+                .build(),
+        )
         .with_reader(exporter)
         .build();
 

@@ -5,9 +5,9 @@ use opentelemetry_sdk::{
 };
 
 pub fn install() -> Result<SdkMeterProvider, MetricsError> {
-    let exporter = opentelemetry_stdout::MetricsExporter::default();
+    let exporter = opentelemetry_stdout::MetricExporter::default();
 
-    let reader = PeriodicReader::builder(exporter, runtime::Tokio).build();
+    let reader = PeriodicReader::builder(exporter).build();
 
     Ok(MeterProviderBuilder::default().with_reader(reader).build())
 }

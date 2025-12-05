@@ -25,9 +25,9 @@ impl MigratorDriver for SqliteDriver {
             .interact(|conn| {
                 let query = "SELECT migrate FROM migrations limit 1";
                 let Err(err) = conn.prepare(query) else {
-                debug!("migration table already created");
-                return Ok(());
-            };
+                    debug!("migration table already created");
+                    return Ok(());
+                };
 
                 if err.sqlite_error_code().unwrap_or(ErrorCode::NotFound) != ErrorCode::Unknown {
                     error!(error = err.to_string(), "unexpected error");
@@ -43,14 +43,14 @@ impl MigratorDriver for SqliteDriver {
             )";
 
                 let Ok(mut statement) = conn.prepare(query) else {
-                error!("error to prepare create migrations table query");
-                return Err(MigrationError::CreateMigrationsTableErr {});
-            };
+                    error!("error to prepare create migrations table query");
+                    return Err(MigrationError::CreateMigrationsTableErr {});
+                };
 
                 let Ok(_) = statement.execute([]) else {
-                error!("error to execute create migrations table query");
-                return Err(MigrationError::CreateMigrationsTableErr {});
-            };
+                    error!("error to execute create migrations table query");
+                    return Err(MigrationError::CreateMigrationsTableErr {});
+                };
 
                 Ok(())
             })
@@ -94,10 +94,10 @@ impl MigratorDriver for SqliteDriver {
 
             let query: String = match fs::read_to_string(dir_entry.path()) {
                 Err(err) => {
-                     error!(error = e.to_string(), "error to read migration file");
+                    error!(error = err.to_string(), "error to read migration file");
                     Err(MigrationError::InternalError {})
-                },
-                Ok(q) => Ok(q)
+                }
+                Ok(q) => Ok(q),
             }?;
 
             match conn

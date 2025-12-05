@@ -1,17 +1,17 @@
 use crate::errors::TracesError;
 use configs::{Configs, DynamicConfigs};
 use opentelemetry::{global, propagation::TextMapCompositePropagator};
-use opentelemetry_otlp::{Protocol, WithExportConfig};
+use opentelemetry_otlp::{Protocol, WithExportConfig, WithTonicConfig};
 use opentelemetry_sdk::{
     propagation::{BaggagePropagator, TraceContextPropagator},
     runtime,
-    trace::Config,
+    trace::SdkTracerProvider,
 };
 use std::time::Duration;
 use tonic::metadata::{Ascii, MetadataKey, MetadataMap};
 use tracing::{debug, error};
 
-pub fn install<T>(cfg: &Configs<T>, trace_configs: Config) -> Result<(), TracesError>
+pub fn install<T>(cfg: &Configs<T>) -> Result<(), TracesError>
 where
     T: DynamicConfigs,
 {
@@ -34,32 +34,27 @@ where
     let mut map = MetadataMap::with_capacity(2);
     map.insert(key, value);
 
-    let exporter = opentelemetry_otlp::new_exporter()
-        .tonic()
+    let exporter = opentelemetry_otlp::SpanExporter::builder()
+        .with_tonic()
         .with_endpoint(&cfg.trace.host)
         .with_protocol(Protocol::Grpc)
         .with_timeout(Duration::from_secs(cfg.trace.export_timeout))
-        .with_metadata(map);
+        .with_metadata(map)
+        .build()
+        .map_err(|_| TracesError::ExporterProviderError)?;
 
-    match opentelemetry_otlp::new_pipeline()
-        .tracing()
-        .with_trace_config(trace_configs)
-        .with_exporter(exporter)
-        .install_batch(runtime::Tokio)
-    {
-        Err(err) => {
-            error!(error = err.to_string(), "failure to install otlp tracing");
-            Err(TracesError::ExporterProviderError)
-        }
-        _ => {
-            global::set_text_map_propagator(TextMapCompositePropagator::new(vec![
-                Box::new(TraceContextPropagator::new()),
-                Box::new(BaggagePropagator::new()),
-            ]));
+    let provider = opentelemetry_sdk::trace::SdkTracerProvider::builder()
+        .with_batch_exporter(exporter, runtime::Tokio)
+        .build();
 
-            debug!("traces::install otlp tracer installed");
+    global::set_tracer_provider(provider);
 
-            Ok(())
-        }
-    }
+    global::set_text_map_propagator(TextMapCompositePropagator::new(vec![
+        Box::new(TraceContextPropagator::new()),
+        Box::new(BaggagePropagator::new()),
+    ]));
+
+    debug!("traces::install otlp tracer installed");
+
+    Ok(())
 }

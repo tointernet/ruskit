@@ -15,9 +15,9 @@ opentelemetry_sdk = { workspace = true, features = ["rt-tokio"]}
 tracing = { workspace = true }
 thiserror = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
-tonic = { workspace = true, features = ["tls"] }
+tonic = { workspace = true, features = [] }
 tokio = { workspace = true, features = ["default"] }
 
-opentelemetry-otlp = { version = "0.17", features = ["tonic", "tls", "tls-roots"], optional = true }
+opentelemetry-otlp = { version = "0.31.0", features = ["tonic"], optional = true }
 
-opentelemetry-stdout = { version = "0.5", features = ["trace"], optional = true }
+opentelemetry-stdout = { version = "0.31.0", features = ["trace"], optional = true }

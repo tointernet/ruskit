@@ -13,10 +13,10 @@ async-trait = { workspace = true }
 opentelemetry = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["sync"] }
-reqwest = { version = "0.12.4", features = ["json"] }
-moka = { version = "0.12.7", features = ["future"] }
-jsonwebtoken = { version = "9.3.0" }
+reqwest = { version = "0.12.24", features = ["json"] }
+moka = { version = "0.12.11", features = ["future"] }
+jsonwebtoken = { version = "10.2.0", features = ["aws_lc_rs"] }
 
 [dev-dependencies]
-openssl = "0.10"
-base64 = "0.22"
+openssl = "0.10.75"
+base64 = "0.22.1"

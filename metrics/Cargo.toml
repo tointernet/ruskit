@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-prometheus = ["dep:opentelemetry-prometheus"]
+# prometheus = ["dep:opentelemetry-prometheus"]  # Disabled: opentelemetry-prometheus is discontinued
 otlp = ["dep:opentelemetry-otlp", "dep:tonic", "dep:tokio"]
 stdout = ["dep:opentelemetry-stdout", "dep:tokio"]
 
@@ -17,13 +17,13 @@ tracing = { workspace = true }
 thiserror = { workspace = true }
 
 # OTLP Featue
-tonic = { workspace = true, features = ["tls"], optional = true }
+tonic = { workspace = true, features = [], optional = true }
 tokio = { workspace = true, features = ["default"], optional = true }
-opentelemetry-otlp = { version = "0.17", features = ["metrics", "prost", "grpc-tonic", "gzip-tonic","tls", "tls-roots"], optional = true }
+opentelemetry-otlp = { version = "0.31.0", features = ["metrics", "prost", "grpc-tonic", "gzip-tonic","tls", "tls-roots"], optional = true }
 
-# Prometheus Feature
-prometheus = { version = "0.13.4" }
-opentelemetry-prometheus = { version = "0.16", optional = true }
+# Prometheus Feature (Note: opentelemetry-prometheus is discontinued at 0.29.1 and incompatible with opentelemetry_sdk 0.31.0)
+prometheus = { version = "0.14.0" }
+# opentelemetry-prometheus = { version = "0.29.1", optional = true }
 
 # Stdout
-opentelemetry-stdout = { version = "0.5", features = ["metrics"], optional = true }
+opentelemetry-stdout = { version = "0.31.0", features = ["metrics"], optional = true }
